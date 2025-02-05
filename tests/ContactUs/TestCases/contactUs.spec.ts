@@ -4,7 +4,7 @@ import { ContactUs } from "../PageObject/contactUs"
 
 test.describe("Home Page Functionality Check", () => {
     test.beforeEach(async ({ page }) => {        
-        await page.goto('http://localhost:5174/contact', { waitUntil: 'networkidle' });
+        await page.goto(`${process.env.BASE_URL}contact`, { waitUntil: 'networkidle' });
       });
 
     test("ContactUs Page element visibility check", async ({ page }) => {

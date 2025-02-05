@@ -1,9 +1,10 @@
 import { test, expect } from "@playwright/test";
 import { Homepage } from "../PageObjects/homePage";
+require('dotenv').config({ path: './env/.env.testdata' });
 
 test.describe("Home Page Functionality Check", () => {
     test.beforeEach(async ({ page }) => {        
-        await page.goto('http://localhost:5174/', { waitUntil: 'networkidle' });
+        await page.goto(process.env.BASE_URL as string, { waitUntil: 'networkidle' });
       });
       
   test("Home Page element visibility check", async ({ page }) => {
