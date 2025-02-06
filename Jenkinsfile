@@ -16,10 +16,4 @@ pipeline {
             }
         }
     }
-    post {
-        always {
-            echo "Cleaning up after the build."
-            cleanWs() // Cleans up the workspaces
-        }
-    }
 }
