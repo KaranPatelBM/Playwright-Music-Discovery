@@ -1,4 +1,4 @@
-def testReportName = ["UI_TEST_REPORT"]
+def testReportName = "UI_TEST_REPORT"
 
 pipeline {
     agent any
