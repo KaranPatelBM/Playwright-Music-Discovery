@@ -1,3 +1,5 @@
+def testReportName = ["UI_TEST_REPORT"]
+
 pipeline {
     agent any
     stages {
@@ -31,7 +33,7 @@ pipeline {
             // Archive screenshots, videos, traces for failed tests
             archiveArtifacts artifacts: 'playwright-report/screenshots/**', allowEmptyArchive: true
             archiveArtifacts artifacts: 'playwright-report/videos/**', allowEmptyArchive: true
-            archiveArtifacts artifacts: 'playwright-report/traces/**', allowEmptyArchive: trues
+            archiveArtifacts artifacts: 'playwright-report/traces/**', allowEmptyArchive: true
         }
     }
 }
