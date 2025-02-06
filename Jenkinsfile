@@ -2,7 +2,7 @@ pipeline {
     agent any
     stages {
         stage('dependencies') {
-            steps{
+            steps {
                 bat 'npm install'
                 bat 'npx playwright install'
                 bat 'npm install cross-env'
@@ -10,15 +10,22 @@ pipeline {
             }
         }
         stage('Lint and Build') {
-            steps{
+            steps {
                 bat 'npm run lint'
                 bat 'npm run build'
             }
         }
         stage('Test') {
-            steps{
-                bat 'npx playwright test'
+            steps {
+                bat 'npx playwright test --reporter=json > test-report.json'
+                junit '**/test-report.json'
             }
+        }
+    }
+    post {
+        always {
+            echo "Cleaning up after the build."
+            cleanWs() // Cleans up the workspaces
         }
     }
 }
