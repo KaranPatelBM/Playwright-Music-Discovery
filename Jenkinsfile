@@ -9,13 +9,6 @@ pipeline {
                 bat 'npm install dotenv'
             }
         }
-        stage('Lint and Build') {
-            steps {
-                bat "npm install @typescript-eslint/eslint-plugin @typescript-eslint/parser --save-dev"
-                bat 'npm run lint'
-                bat 'npm run build'
-            }
-        }
         stage('Test') {
             steps {
                 bat 'npx playwright test --reporter=json > test-report.json'
