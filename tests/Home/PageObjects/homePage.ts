@@ -36,7 +36,7 @@ export class Homepage {
         this.footerTile = this.root.locator('[data-test-id="footer-tile"]');
         this.footerLinkdIn = this.footerTile.locator('[data-test-id="LinkedIn"]');
         this.footerGitHub = this.footerTile.locator('[data-test-id="GitHub"]');
-        this.searchBox = this.root.locator('[data-test-id="search-box"]');
+        this.searchBox = this.root.getByPlaceholder("Search for music...");
         this.homePageIntro = this.root.locator('[data-test-id="Intro-tile"]');
         this.totalSongsCards = this.root.locator('[data-test-id^="music-item-"]');
         this.songsCards = (index:number) => this.root.locator(`[data-test-id="music-item-${index}"]`);
