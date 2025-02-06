@@ -1,19 +1,18 @@
 import globals from "globals";
 import pluginJs from "@eslint/js";
-import tseslint from "@typescript-eslint/eslint-plugin";
+import tseslint from "typescript-eslint";
 import playwright from "eslint-plugin-playwright";
-import { defineConfig } from "eslint";
 
-export default defineConfig([
+export default [
   {
-    files: ["**/*.{js,mjs,cjs,ts}"],
+    files: ["**/*.{js,mjs,cjs,ts}"]
   },
   {
     ...playwright.configs["flat/recommended"],
     files: ["tests/**"],
   },
   {
-    ignores: ["playwright-report/**", "test-results/**"],
+    ignores: ["playwright-report/**", "test-results/**"]
   },
   {
     languageOptions: {
@@ -24,13 +23,13 @@ export default defineConfig([
     },
   },
   {
-    rules: {
+    "rules": {
       "playwright/expect-expect": "off",
       "playwright/no-conditional-in-test": "off",
       "playwright/no-conditional-expect": "off",
-      "playwright/no-wait-for-timeout": "off",
-    },
+      "playwright/no-wait-for-timeout": "off"
+    }
   },
   pluginJs.configs.recommended,
-  tseslint.configs.recommended,
-]);
+  ...tseslint.configs.recommended,
+];
