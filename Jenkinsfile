@@ -11,6 +11,7 @@ pipeline {
         }
         stage('Lint and Build') {
             steps {
+                bat "npm install @typescript-eslint/eslint-plugin @typescript-eslint/parser --save-dev"
                 bat 'npm run lint'
                 bat 'npm run build'
             }
