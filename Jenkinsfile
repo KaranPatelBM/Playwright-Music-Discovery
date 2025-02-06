@@ -3,17 +3,34 @@ pipeline {
     stages {
         stage('dependencies') {
             steps {
-                bat 'npm install'
+                bat 'npm ci'
                 bat 'npx playwright install'
-                bat 'npm install cross-env'
-                bat 'npm install dotenv'
             }
         }
         stage('Test') {
             steps {
-                bat 'npx playwright test --reporter=json > test-report.json'
-                junit '**/test-report.json'
+                bat 'npm run test'
             }
         }
+    }
+
+    post {
+        always {
+            publishHTML([
+                    allowMissing : true,
+                    alwaysLinkToLastBuild: true,
+                    keepAll : true,
+                    escapeUnderscores : false,
+                    reportDir : 'playwright-report',
+                    reportFiles : 'index.html',
+                    reportName : testReportName,
+            ])
+
+            junit testResults: "playwright-report/junit/junit-test-report.xml", skipPublishingChecks: true, healthScaleFactor: 10.0, allowEmptyResults: true
+
+            // Archive screenshots, videos, traces for failed tests
+            archiveArtifacts artifacts: 'playwright-report/screenshots/**', allowEmptyArchive: true
+            archiveArtifacts artifacts: 'playwright-report/videos/**', allowEmptyArchive: true
+            archiveArtifacts artifacts: 'playwright-report/traces/**', allowEmptyArchive: trues
     }
 }
