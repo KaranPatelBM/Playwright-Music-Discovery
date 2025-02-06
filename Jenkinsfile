@@ -32,5 +32,6 @@ pipeline {
             archiveArtifacts artifacts: 'playwright-report/screenshots/**', allowEmptyArchive: true
             archiveArtifacts artifacts: 'playwright-report/videos/**', allowEmptyArchive: true
             archiveArtifacts artifacts: 'playwright-report/traces/**', allowEmptyArchive: trues
+        }
     }
 }
