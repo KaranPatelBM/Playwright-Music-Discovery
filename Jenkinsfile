@@ -1,4 +1,10 @@
 def testReportName = "UI_TEST_REPORT"
+properties([
+    parameters([
+        string(name: 'CONTAINER_NAME', defaultValue: '', description: 'Name of the Docker container'),
+        string(name: 'DOCKER_IMAGE', defaultValue: '', description: 'Docker image for the container')
+    ])
+])
 
 pipeline {
     agent any
@@ -11,7 +17,8 @@ pipeline {
         }
         stage('Test') {
             steps {
-                bat 'npm run test'
+                echo "Running Playwright tests inside container: ${containerName}"
+                bat 'docker exec ${params.CONTAINER_NAME} npm run test'
             }
         }
     }
