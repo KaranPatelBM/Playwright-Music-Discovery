@@ -1,7 +1,7 @@
 services:
   music-discovery-app:
     container_name: "${CONTAINER_NAME:-music-discovery-app-container}"
-    image: "${params.DOCKER_IMAGE}"
+    image: "${DOCKER_IMAGE}"
     build:
       context: ${REACT_BUILD_PATH}
     ports:
