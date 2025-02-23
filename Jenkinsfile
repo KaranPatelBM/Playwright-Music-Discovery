@@ -33,9 +33,6 @@ pipeline {
         }
         stage('dependencies') {
             steps {
-                bat """
-                    docker run -d --name ${params.CONTAINER_NAME} -p 8563:8563 ${params.DOCKER_IMAGE}
-                """
                 bat "docker exec ${params.CONTAINER_NAME} npm ci"
                 echo "Running npx playwright install inside container: ${params.CONTAINER_NAME}"
                 bat "docker exec ${params.CONTAINER_NAME} npx playwright install"
