@@ -1,6 +1,6 @@
 services:
   react-app:
-    container_name: ${.CONTAINER_NAME:-music-discovery-app-container}
+    container_name: "${CONTAINER_NAME:-music-discovery-app-container}"
     build: ../Music-Discovery-Web-page
     ports:
       - "8563:8563"
