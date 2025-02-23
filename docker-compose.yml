@@ -1,0 +1,21 @@
+version: "3.8"
+
+services:
+  react-app:
+    container_name: ${CONTAINER_NAME:-music-discovery-app-container}
+    build: ../Music-Discovery-Web-page
+    ports:
+      - "8563:8563"
+    volumes:
+      - ../music-discovery-webpage:/app/Music-Discovery-Web-page
+      - /app/Music-Discovery-Web-page/node_modules
+    command: ["npm", "start"]
+
+  playwright-tests:
+    container_name: playwright-music-discovery-app-container
+    build: .
+    depends_on:
+      - react-app  # Waits for React app to start
+    env_file:
+      - .env.testdata
+    command: ["npx", "playwright", "test"]

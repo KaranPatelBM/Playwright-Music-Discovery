@@ -8,12 +8,32 @@ properties([
 
 pipeline {
     agent any
+     environment {
+        COMPOSE_FILE = "docker-compose.yml"
+    }
+    stage('Git Checkout') {
+        steps {
+            script {
+                withCredentials([string(credentialsId: 'PLAYWRIGHT_GIT_URL', variable: 'GIT_URL_SECRET')]) {                    
+                    git branch: 'main', url: "${env.GIT_URL_SECRET}"
+                }
+            }
+        }
+    }
     stages {
         stage('dependencies') {
             steps {
                 bat "docker exec ${params.CONTAINER_NAME} npm ci"
                 echo "Running npx playwright install inside container: ${params.CONTAINER_NAME}"
                 bat "docker exec ${params.CONTAINER_NAME} npx playwright install"
+            }
+        }
+        stage('Build and Start Containers') {
+            steps {
+                script {
+                    echo "Building and starting Docker Compose services..."
+                    bat "docker-compose up -d --build"
+                }
             }
         }
         stage('Test') {
