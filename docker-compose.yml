@@ -1,5 +1,5 @@
 services:
-  react-app:
+  music-discovery-app:
     container_name: "${CONTAINER_NAME:-music-discovery-app-container}"
     image: ${params.DOCKER_IMAGE}
     build:
@@ -15,7 +15,7 @@ services:
     container_name: playwright-music-discovery-app-container
     build: .
     depends_on:
-      - react-app  # Waits for React app to start
+      - music-discovery-app  # Waits for music-discovery-apps to start
     environment:
       - BASE_URL="http://react-app:8563"
     command: ["npx", "playwright", "test"]
