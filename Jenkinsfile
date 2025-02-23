@@ -33,6 +33,12 @@ pipeline {
         }
         stage('dependencies') {
             steps {
+                def isRunning = bat(script: "docker inspect -f \"{{.State.Running}}\" ${params.CONTAINER_NAME}", returnStdout: true).trim()            
+                if (isRunning != "true") {
+                    echo "Container ${params.CONTAINER_NAME} is not running. Starting it..."
+                    bat "docker start ${params.CONTAINER_NAME}"
+                    sleep 5  // Give it time to start
+                }
                 bat "docker exec ${params.CONTAINER_NAME} npm ci"
                 echo "Running npx playwright install inside container: ${params.CONTAINER_NAME}"
                 bat "docker exec ${params.CONTAINER_NAME} npx playwright install"
