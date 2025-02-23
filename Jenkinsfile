@@ -16,7 +16,7 @@ pipeline {
             steps {
                 script {
                     withCredentials([string(credentialsId: 'PLAYWRIGHT_GIT_URL', variable: 'GIT_URL_SECRET')]) {                    
-                        git branch: 'main', url: "${env.GIT_URL_SECRET}"
+                        git branch: 'master', url: "${env.GIT_URL_SECRET}"
                     }
                 }
             }
