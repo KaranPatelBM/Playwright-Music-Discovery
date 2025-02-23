@@ -1,7 +1,8 @@
 services:
   react-app:
     container_name: "${CONTAINER_NAME:-music-discovery-app-container}"
-    build: ../Music-Discovery-Web-page
+    build:
+      context: ${REACT_BUILD_PATH}
     ports:
       - "8563:8563"
     volumes:

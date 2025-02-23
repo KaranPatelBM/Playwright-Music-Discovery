@@ -2,7 +2,8 @@ def testReportName = "UI_TEST_REPORT"
 properties([
     parameters([
         string(name: 'CONTAINER_NAME', defaultValue: '', description: 'Name of the Docker container'),
-        string(name: 'DOCKER_IMAGE', defaultValue: '', description: 'Docker image for the container')
+        string(name: 'DOCKER_IMAGE', defaultValue: '', description: 'Docker image for the container'),
+        string(name: 'REACT_BUILD_PATH', defaultValue: '', description: 'Path to React project')
     ])
 ])
 
@@ -25,7 +26,7 @@ pipeline {
             steps {
                 script {
                     echo "Building and starting Docker Compose services..."
-                    bat "docker-compose up -d --build"
+                    bat "docker-compose build --build-arg REACT_BUILD_PATH=${params.REACT_BUILD_PATH}"
                 }
             }
         }
