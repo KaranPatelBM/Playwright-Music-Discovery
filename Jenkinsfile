@@ -26,6 +26,7 @@ pipeline {
             steps {
                 script {
                     echo "Building and starting Docker Compose services..."
+                    bat "echo Building with path: ${params.REACT_BUILD_PATH}"
                     bat "docker-compose build --build-arg REACT_BUILD_PATH=${params.REACT_BUILD_PATH}"
                 }
             }
