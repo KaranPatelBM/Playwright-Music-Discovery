@@ -8,6 +8,7 @@ services:
     volumes:
       - ../music-discovery-webpage:/app/Music-Discovery-Web-page
     command: ["npm", "run", "test"]
+    restart: always
     stdin_open: true
     tty: true
 
