@@ -1,13 +1,11 @@
 services:
   react-app:
     container_name: "${CONTAINER_NAME:-music-discovery-app-container}"
+    image: ${params.DOCKER_IMAGE}
     build:
       context: ${REACT_BUILD_PATH}
     ports:
       - "8563:8563"
-    volumes:
-      - ../music-discovery-webpage:/app/Music-Discovery-Web-page
-      - /app/Music-Discovery-Web-page/node_modules
     command: ["npm", "run", "dev"]
     restart: always
     stdin_open: true
