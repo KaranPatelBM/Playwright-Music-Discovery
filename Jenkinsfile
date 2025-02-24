@@ -51,7 +51,7 @@ pipeline {
             steps {
                 script {
                     echo "Running Playwright tests inside container: playwright-music-discovery-app-container"
-                    bat "docker exec playwright-music-discovery-app-container npx playwright test"
+                    bat "docker exec playwright-music-discovery-app-container npx playwright test --reporter=html && exit 0"
                 }
             }
         }

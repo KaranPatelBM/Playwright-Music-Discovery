@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/playwright:v1.40.0
+FROM mcr.microsoft.com/playwright:v1.50.1
  
 WORKDIR /app/Playwright-Music-Discovery
 
