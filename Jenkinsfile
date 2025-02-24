@@ -42,8 +42,8 @@ pipeline {
         }
         stage('Test') {
             steps {
-                echo "Running Playwright tests inside container: ${params.CONTAINER_NAME}"
-                bat "docker exec ${params.CONTAINER_NAME} npm run test"
+                echo "Running Playwright tests inside container: playwright-music-discovery-app-container"
+                bat "docker exec playwright-music-discovery-app-container npm playwright test"
             }
         }
     }
