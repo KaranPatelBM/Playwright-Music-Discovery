@@ -29,6 +29,12 @@ pipeline {
                     bat "echo Building with path: ${params.REACT_BUILD_PATH}"
                     bat "docker-compose build --build-arg REACT_BUILD_PATH=${params.REACT_BUILD_PATH}"
                     bat "docker-compose up -d"
+                    
+                    def processId = bat(script: 'tasklist /FI "IMAGENAME eq node.exe"', returnStdout: true).trim()
+                    echo "Started process with PID: ${processId}"
+                    currentBuild.description = processId
+                    
+                    sleep 10                    
                 }
             }
         }
@@ -53,6 +59,13 @@ pipeline {
 
     post {
         always {
+            def pid = currentBuild.description
+            if (pid && pid.isInteger()) {
+                bat "taskkill /PID ${pid} /F"
+                echo "Killed process with PID: ${pid}"
+            } else {
+                echo "No valid PID found or process is not running."
+            }            
             publishHTML([
                     allowMissing : true,
                     alwaysLinkToLastBuild: true,
