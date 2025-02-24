@@ -4,6 +4,7 @@ services:
     image: "${DOCKER_IMAGE}"
     build:
       context: ${REACT_BUILD_PATH}
+    working_dir: /app/Music-Discovery-Web-page
     ports:
       - "8563:8563"
     command: ["npm", "run", "dev"]
@@ -16,6 +17,7 @@ services:
     build: .
     depends_on:
       - music-discovery-app  # Waits for music-discovery-apps to start
+    working_dir: /app/Playwright-Music-Discovery
     environment:
       - BASE_URL="http://react-app:8563"
     command: ["npx", "playwright", "test"]
