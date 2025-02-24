@@ -19,5 +19,5 @@ services:
       - music-discovery-app  # Waits for music-discovery-apps to start
     working_dir: /app/Playwright-Music-Discovery
     environment:
-      - BASE_URL="http://react-app:8563"
+      - BASE_URL="http://music-discovery-app:8563"
     command: ["npx", "playwright", "test"]

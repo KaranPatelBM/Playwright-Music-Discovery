@@ -9,7 +9,7 @@ properties([
 
 pipeline {
     agent any
-     environment {
+    environment {
         COMPOSE_FILE = "docker-compose.yml"
     }
     stages {
@@ -27,23 +27,26 @@ pipeline {
                 script {
                     echo "Building and starting Docker Compose services..."
                     bat "echo Building with path: ${params.REACT_BUILD_PATH}"
-                    bat "docker-compose build --build-arg REACT_BUILD_PATH=$env.REACT_BUILD_PATH"
+                    bat "docker-compose build --build-arg REACT_BUILD_PATH=${params.REACT_BUILD_PATH}"
+                    bat "docker-compose up -d"
                 }
             }
         }
-        stage('dependencies') {
+        stage('Install Dependencies') {
             steps {
                 script {
-                    echo "Running npm ci inside container: ${params.CONTAINER_NAME}"
+                    echo "Installing dependencies inside container: ${params.CONTAINER_NAME}"
                     bat "docker exec ${params.CONTAINER_NAME} npm ci"
-                    bat "docker exec ${params.CONTAINER_NAME} npx playwright install"
+                    bat "docker exec ${params.CONTAINER_NAME} npx playwright install --with-deps"
                 }
             }
         }
-        stage('Test') {
+        stage('Run Tests') {
             steps {
-                echo "Running Playwright tests inside container: playwright-music-discovery-app-container"
-                bat "docker exec playwright-music-discovery-app-container npm playwright test"
+                script {
+                    echo "Running Playwright tests inside container: playwright-music-discovery-app-container"
+                    bat "docker exec playwright-music-discovery-app-container npx playwright test"
+                }
             }
         }
     }
@@ -66,6 +69,12 @@ pipeline {
             archiveArtifacts artifacts: 'playwright-report/screenshots/**', allowEmptyArchive: true
             archiveArtifacts artifacts: 'playwright-report/videos/**', allowEmptyArchive: true
             archiveArtifacts artifacts: 'playwright-report/traces/**', allowEmptyArchive: true
+        }
+        cleanup {
+            script {
+                echo "Stopping and removing containers..."
+                bat "docker-compose down"
+            }
         }
     }
 }
